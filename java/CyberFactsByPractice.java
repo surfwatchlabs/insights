@@ -5,27 +5,30 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class IndustryTargetSummaries {
+public class CyberFactsByPractice {
     
-    private static final String API_BASE_URL = "https://www.surfwatchanalytics.com:443/v2";
+    private static final String API_BASE_URL = "https://www.surfwatchlabs.com:443/api/v3";
 
     public static void main( String[] args ) throws Exception {
         
-        Client restClient = ClientBuilder.newClient();  
-        WebTarget target = restClient.target( API_BASE_URL )
-                .path( "/industryTargetSummaries" )
-                .queryParam( "startDate", "2014-06-11" )
-                .queryParam( "endDate", "2014-06-11" );
+        String tagId = "122930";    // tag is "unauthorized database access"
 
-        MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        Client restClient = ClientBuilder.newClient();
+        WebTarget target = restClient.target( API_BASE_URL )
+                .path( "/cyberFacts/containingCyberTag/" +  tagId )
+                .queryParam( "startDate", "2015-06-25" )
+                .queryParam( "endDate", "2015-06-25" );
+
+        MultivaluedMap headers = new MultivaluedHashMap<>();
         headers.add( "app_id", "your_app_id" );
         headers.add( "app_key", "your_app_key" );
-        
+
         String response = target
                 .request( MediaType.APPLICATION_JSON )  // alternately set "Content-Type" header
                 .headers( headers )
                 .get( String.class );
-        
+
         System.out.print( response );
-    }       
+    }
+    
 }

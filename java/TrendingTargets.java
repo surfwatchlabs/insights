@@ -5,27 +5,29 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-public class IndustryTargetSummariesByMarket {
+public class TrendingTargets {
     
-    private static final String API_BASE_URL = "https://www.surfwatchanalytics.com:443/v2";
+    private static final String API_BASE_URL = "https://www.surfwatchlabs.com:443/api/v3";
 
     public static void main( String[] args ) throws Exception {
-        
-        Client restClient = ClientBuilder.newClient();  
-        WebTarget target = restClient.target( API_BASE_URL )
-                .path( "/industryTargetSummaries" )
-                .queryParam( "yesterday", "true" )
-                .queryParam( "market", "NYSE" );
 
-        MultivaluedMap<String, Object> headers = new MultivaluedHashMap<>();
+        Client restClient = ClientBuilder.newClient();
+        WebTarget target = restClient.target( API_BASE_URL )
+                .path( "/summary/tagTrend/monthly" )
+                .queryParam( "date", "2015-06-30" )
+                .queryParam( "tagSuperTypeId", "2" )
+                .queryParam( "feedId", "-3" );
+
+        MultivaluedMap headers = new MultivaluedHashMap<>();
         headers.add( "app_id", "your_app_id" );
         headers.add( "app_key", "your_app_key" );
-        
+
         String response = target
                 .request( MediaType.APPLICATION_JSON )  // alternately set "Content-Type" header
                 .headers( headers )
                 .get( String.class );
-        
+
         System.out.print( response );
-    }       
+    }
+    
 }
